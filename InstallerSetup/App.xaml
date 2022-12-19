@@ -1,0 +1,47 @@
+﻿<Application x:Class="InstallerSetup.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:InstallerSetup" 
+             xmlns:converters="clr-namespace:InstallerSetup.Converters"
+             StartupUri="Views/MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!--Override the default button style-->
+            <!--Remove the automatic capitalization of the button text in MahApps.Metro-->
+            <!--And also change the appearance a bit-->
+            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MahApps.Styles.Button.Square}">
+                <Setter Property="controls:ControlsHelper.ContentCharacterCasing" Value="Normal"/>
+                <Setter Property="BorderThickness" Value="0.2"/>
+                <Setter Property="Background" Value="#303030"/>
+                <Setter Property="FontSize" Value="14"/>
+                <Setter Property="Padding" Value="3"/>
+            </Style>
+
+            <!--Creates the icon for the window-->
+            <DrawingImage x:Key="InstallerSetupIcon">
+                <DrawingImage.Drawing>
+                    <DrawingGroup>
+                        <GeometryDrawing Brush="#00FFFFFF">
+                            <GeometryDrawing.Geometry>
+                                <EllipseGeometry Center="50,50" RadiusX="50"  RadiusY="50"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                        <ImageDrawing Rect="15,15,70,70" ImageSource="Resources/InstallerSetupIcon.ico"/>
+                    </DrawingGroup>
+                </DrawingImage.Drawing>
+            </DrawingImage>
+
+            <!--Value converters-->
+            <converters:DebugConverter x:Key="DebugConverter" />
+
+            <!--This is essential, the default MahApps window and buttons are not styled correctly otherwise-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Themes/dark.blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Vs/Button.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

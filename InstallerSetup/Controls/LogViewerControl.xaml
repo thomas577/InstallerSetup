@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="InstallerSetup.Controls.LogViewerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:InstallerSetup.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             x:Name="LogViewer">
+    <DataGrid x:Name="LogViewerDataGrid"
+              ItemsSource="{Binding ElementName=LogViewer, Path=LogLines, Mode=OneWay}"
+              HorizontalScrollBarVisibility="Disabled"
+              VerticalScrollBarVisibility="Visible"
+              Background="#2a2a2a"
+              BorderBrush="WhiteSmoke"
+              BorderThickness="0,0.3,0,0"
+              HeadersVisibility="None"
+              GridLinesVisibility="None"
+              AutoGenerateColumns="False">
+        <DataGrid.Columns>
+            
+            <!--'Time' column--> 
+            <DataGridTemplateColumn Header="Time">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate DataType="{x:Type local:ILogViewerLine}">
+                        <TextBlock Margin="0,0,10,0"
+                                   FontWeight="Bold" 
+                                   Text="{Binding Path=Timestamp, StringFormat={}{0:ddd HH:mm:ss.fff}, Mode=OneWay}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <!--'Message' column-->
+            <DataGridTemplateColumn Header="Message">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate DataType="{x:Type local:ILogViewerLine}">
+                        <TextBlock FontWeight="Normal" 
+                                   Text="{Binding Path=Text, Mode=OneWay}"
+                                   Width="{Binding ElementName=LogViewer, Converter={StaticResource DebugConverter}, Path=MaximumTextWidth, Mode=OneWay}"
+                                   TextWrapping="WrapWithOverflow">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Foreground" Value="White"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=Color, Mode=OneWay}" Value="{x:Static local:LogViewerLineColor.Green}">
+                                            <Setter Property="Foreground" Value="Green"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Path=Color, Mode=OneWay}" Value="{x:Static local:LogViewerLineColor.Red}">
+                                            <Setter Property="Foreground" Value="Red"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>
