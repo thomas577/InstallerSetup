@@ -37,12 +37,12 @@ namespace InstallerSetup.Models.Tasks
             try
             {
                 this.Status = TaskStatus.Running;
-
-
+                return default(T);
             }
             catch (Exception exception)
             {
-
+                this.Status = TaskStatus.Faulted;
+                return default(T);
             }
             finally
             {

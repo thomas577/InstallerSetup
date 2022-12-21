@@ -79,6 +79,10 @@
     <Compile Include="Models\Tasks\TaskBase.cs" />
     <Compile Include="Models\Tasks\TaskCheckFileExists.cs" />
     <Compile Include="Models\Tasks\TaskStatus.cs" />
+    <Compile Include="Services\Logging\ILoggingService.cs" />
+    <Compile Include="Services\Logging\LoggingLine.cs" />
+    <Compile Include="Services\Logging\LoggingLineList.cs" />
+    <Compile Include="Services\Logging\LoggingService.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="Controls\LogViewerControl.xaml">
       <SubType>Designer</SubType>

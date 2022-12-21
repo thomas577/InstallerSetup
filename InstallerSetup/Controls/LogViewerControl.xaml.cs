@@ -28,7 +28,7 @@ namespace InstallerSetup.Controls
     {
         public static readonly DependencyProperty LogLinesProperty =
             DependencyProperty.Register(name: nameof(LogLines),
-                                        propertyType: typeof(ObservableCollection<ILogViewerLine>),
+                                        propertyType: typeof(ILogViewerLineList),
                                         ownerType: typeof(LogViewerControl),
                                         typeMetadata: new FrameworkPropertyMetadata(defaultValue: null, propertyChangedCallback: OnLogLinesChanged));
 
@@ -53,9 +53,9 @@ namespace InstallerSetup.Controls
             itemsCollection.CollectionChanged += this.OnCollectionChanged;
         }
 
-        public ObservableCollection<ILogViewerLine> LogLines
+        public ILogViewerLineList LogLines
         {
-            get { return (ObservableCollection<ILogViewerLine>)GetValue(LogLinesProperty); }
+            get { return (ILogViewerLineList)GetValue(LogLinesProperty); }
             set { SetValue(LogLinesProperty, value); }
         }
 
@@ -109,6 +109,16 @@ namespace InstallerSetup.Controls
         LogViewerLineColor Color { get; }
     }
 
+    /// <summary>
+    /// Defines the interface that a collection of logging lines must implement in order to be displayed in this control
+    /// </summary>
+    public interface ILogViewerLineList : IList<ILogViewerLine>, INotifyCollectionChanged
+    {
+    }
+
+    /// <summary>
+    /// Defines the foreground colors that can be set on the logging lines
+    /// </summary>
     public enum LogViewerLineColor
     {
         Normal,
@@ -130,7 +140,7 @@ namespace InstallerSetup.Controls
         {
             this.Timestamp = timestamp;
             this.Text = text;
-            this.color = color;
+            this.Color = color;
         }
 
         public BasicLogViewerLine(DateTime timestamp, string text) : this(timestamp, text, LogViewerLineColor.Normal)

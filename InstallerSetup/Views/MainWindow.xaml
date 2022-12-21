@@ -24,9 +24,9 @@
         <Button Grid.Row="1" Content="Thomas" Command="{Binding Path=ThomasClickCommand, Mode=OneWay}" />
 
         <controls:LogViewerControl Grid.Row="2" 
-                                   LogLines="{Binding Path=LogMessages, Mode=OneWay}"
+                                   LogLines="{Binding Path=LogLines, Mode=OneWay}"
                                    MaximumTextWidth="600"
                                    AutoScroll="True"
-                                   FontSize="11"/>
+                                   FontSize="12"/>
     </Grid>
 </mah:MetroWindow>

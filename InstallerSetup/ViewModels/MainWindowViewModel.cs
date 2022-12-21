@@ -1,4 +1,5 @@
 ﻿using InstallerSetup.Controls;
+using InstallerSetup.Services.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -14,36 +15,27 @@ namespace InstallerSetup.ViewModels
 {
     public class MainWindowViewModel : BindableBase
     {
-        private ObservableCollection<ILogViewerLine> logMessages;
+        private readonly ILoggingService loggingService;
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(ILoggingService loggingService)
         {
-            this.LogMessages = new ObservableCollection<ILogViewerLine>();
-            this.FillWithMessages();
+            this.loggingService = loggingService;
+            this.LogLines = this.loggingService.LogLines;
             this.ThomasClickCommand = new DelegateCommand(this.ThomasClick);
         }
 
-        public ObservableCollection<ILogViewerLine> LogMessages
-        {
-            get { return this.logMessages; }
-            set { this.SetProperty(ref this.logMessages, value); }
-        }
+        public ILogViewerLineList LogLines { get; }
 
         public ICommand ThomasClickCommand { get; }
 
         private void ThomasClick()
         {
-            this.LogMessages = new ObservableCollection<ILogViewerLine>();
-            this.FillWithMessages();
-        }
-
-        private void FillWithMessages()
-        {
             Random random = new Random();
-            this.LogMessages.Clear();
+            this.LogLines.Clear();
             for (int i = 0; i < random.Next(120); i++)
             {
-                this.LogMessages.Add(new BasicLogViewerLine(DateTime.Now, "Hello ds fdsf sdfd fd f dsfs ESDFdfs fds fsdf df dsf sdf sd f dfgfdhbgfhfgd sf dd sf \r\nDFdgdfgfdg dfg fdg dfgfdssfe wf dfdgbfh dfg "));
+                this.loggingService.Log("Hello ds fdsf sdfd fd f dsfs ESDFdfs fds fsdf df dsf sdf sd f dfgfdhbgfhfgd sf dd sf \r\n" +
+                    "DFdgdfgfdg dfg fdg dfgfdssfe wf dfdgbfh dfg ", LoggingType.Error, 2);
             }
         }
     }
