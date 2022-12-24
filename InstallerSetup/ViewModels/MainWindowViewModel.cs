@@ -1,4 +1,5 @@
 ﻿using InstallerSetup.Controls;
+using InstallerSetup.Models.Tasks;
 using InstallerSetup.Services.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -37,6 +38,9 @@ namespace InstallerSetup.ViewModels
                 this.loggingService.Log("Hello ds fdsf sdfd fd f dsfs ESDFdfs fds fsdf df dsf sdf sd f dfgfdhbgfhfgd sf dd sf \r\n" +
                     "DFdgdfgfdg dfg fdg dfgfdssfe wf dfdgbfh dfg ", LoggingType.Error, 2);
             }
+
+            TaskCheckFileExists task = new TaskCheckFileExists(0, this.loggingService, @"C:\temp\thoma.xml");
+            bool exists = task.Execute();
         }
     }
 }

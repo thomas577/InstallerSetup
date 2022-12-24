@@ -11,26 +11,17 @@ using System.Threading.Tasks;
 
 namespace InstallerSetup.Models.Tasks
 {
-    public abstract class TaskBase<T, U> : BindableBase, ITask<T, U>
+    public abstract class TaskBase<T> : BindableBase, ITask<T>
     {
         private readonly ILoggingService loggingService;
-        private readonly IEnumerable<ITask<ITaskResult, U>> childTasks;
         private TaskStatus status;
 
-        protected TaskBase(int nestingLevel, IEnumerable<ITask<ITaskResult, U>> childTasks, ILoggingService loggingService) 
+        protected TaskBase(int nestingLevel, ILoggingService loggingService)
         {
             this.NestingLevel = nestingLevel;
-            this.childTasks = childTasks;
-            this.HasChildTasks = this.childTasks.Any();
             this.loggingService = loggingService;
             this.Status = TaskStatus.NotStarted;
         }
-
-        public abstract string Description { get; }
-
-        public abstract string DescriptionSuccess { get; }
-
-        public abstract string DescriptionFailure { get; }
 
         public TaskStatus Status
         {
@@ -40,61 +31,43 @@ namespace InstallerSetup.Models.Tasks
 
         public int NestingLevel { get; }
 
-        public bool HasChildTasks { get; }
-
-        public T Execute(U context)
+        public T Execute()
         {
             try
             {
-                this.loggingService.Log(this.Description, LoggingType.Normal, this.NestingLevel);
+                this.loggingService.Log(this.GetDescriptionOutput(), LoggingType.Normal, this.NestingLevel);
                 this.Status = TaskStatus.Running;
 
-                // Executes child tasks first, if any
-                bool allChildTasksSuccessful = true;
-                foreach (ITask<ITaskResult, U> childTask in this.childTasks)
+                // Executes the task's internal logic
+                (T output, bool isSuccess) = this.ExecuteInternal();
+                if (isSuccess)
                 {
-                    ITaskResult childResult = childTask.Execute(context);
-                    if (!childResult.IsSuccess)
-                    {
-                        allChildTasksSuccessful = false;
-                        break;
-                    }
-                }
-
-                // If any child task has failed, we exit
-                if (!allChildTasksSuccessful)
-                {
-                    this.loggingService.Log(this.DescriptionFailure, LoggingType.Error, this.NestingLevel);
-                    this.Status = TaskStatus.Faulted;
-                    return default(T);
+                    this.loggingService.Log(this.GetSuccessOutput(output), LoggingType.Successful, this.NestingLevel);
+                    this.Status = TaskStatus.CompletedSuccessfully;
                 }
                 else
                 {
-                    // Executes the task internal logic
-                    T result = this.ExecuteInternal(context);
-                    if (result.IsSuccess)
-                    {
-                        this.loggingService.Log(this.DescriptionSuccess, LoggingType.Successful, this.NestingLevel);
-                        this.Status = TaskStatus.CompletedSuccessfully;
-                    }
-                    else
-                    {
-                        this.loggingService.Log(this.DescriptionFailure, LoggingType.Error, this.NestingLevel);
-                        this.Status = TaskStatus.Faulted;
-                    }
-
-                    return result;
+                    this.loggingService.Log(this.GetFailureOutput(), LoggingType.Error, this.NestingLevel);
+                    this.Status = TaskStatus.Faulted;
                 }
+
+                return output;
             }
             catch (Exception exception)
             {
-                this.loggingService.Log(this.DescriptionFailure, LoggingType.Error, this.NestingLevel);
+                this.loggingService.Log(this.GetFailureOutput(exception), LoggingType.Error, this.NestingLevel);
                 this.loggingService.Log($"Exception details: {exception.Message}\r\n{exception.StackTrace}", LoggingType.Error, this.NestingLevel);
                 this.Status = TaskStatus.Faulted;
                 return default(T);
             }
         }
 
-        protected abstract T ExecuteInternal(U context);
+        protected abstract string GetDescriptionOutput();
+
+        protected abstract string GetFailureOutput(Exception exception = null);
+
+        protected abstract string GetSuccessOutput(T output);
+
+        protected abstract (T output, bool isSuccess) ExecuteInternal();
     }
 }

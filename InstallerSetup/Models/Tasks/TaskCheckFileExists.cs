@@ -2,31 +2,41 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace InstallerSetup.Models.Tasks
 {
-    public class TaskCheckFileExists : TaskBase<TaskResultBasic, TaskExecutionContextBasic>
+    public class TaskCheckFileExists : TaskBase<bool>
     {
-        public TaskCheckFileExists(string fullPath, 
-                                   int nestingLevel, 
-                                   IEnumerable<ITask<ITaskResult, TaskExecutionContextBasic>> childTasks, 
-                                   ILoggingService loggingService) 
-            : base(nestingLevel, childTasks, loggingService)
+        private readonly string fullPath;
+
+        public TaskCheckFileExists(int nestingLevel, ILoggingService loggingService, string fullPath) : base(nestingLevel, loggingService)
         {
+            this.fullPath = fullPath ?? throw new ArgumentNullException(nameof(fullPath));
         }
 
-        public override string Description { get; }
-
-        public override string DescriptionSuccess { get; }
-
-        public override string DescriptionFailure { get; }
-
-        protected override TaskResultBasic ExecuteInternal(TaskExecutionContextBasic context)
+        protected override (bool output, bool isSuccess) ExecuteInternal()
         {
-            throw new NotImplementedException();
+            if (File.Exists(this.fullPath)) return (true, true);
+            return (false, false);
+        }
+
+        protected override string GetDescriptionOutput()
+        {
+            return $"Check if file '{this.fullPath}' exists...";
+        }
+
+        protected override string GetFailureOutput(Exception exception = null)
+        {
+            return $"File '{this.fullPath}' not found!";
+        }
+
+        protected override string GetSuccessOutput(bool output)
+        {
+            return $"File exists.";
         }
     }
 }

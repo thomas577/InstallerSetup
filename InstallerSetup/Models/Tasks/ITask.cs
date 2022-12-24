@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace InstallerSetup.Models.Tasks
 {
-    public interface ITask<out T, in U> : INotifyPropertyChanged
+    public interface ITask<out T> : INotifyPropertyChanged
     {
-        string WriteDescription();
-
-        string WriteSuccess();
-
-        string WriteFailure(Exception exception = null);
-
         TaskStatus Status { get; }
 
         int NestingLevel { get; }
 
-        T Execute(U context);
+        T Execute();
     }
 }

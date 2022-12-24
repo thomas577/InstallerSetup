@@ -16,7 +16,9 @@
               BorderThickness="0,0.3,0,0"
               HeadersVisibility="None"
               GridLinesVisibility="None"
-              AutoGenerateColumns="False">
+              AutoGenerateColumns="False"
+              SelectionMode="Single"
+              SelectionUnit="FullRow">
         <DataGrid.Columns>
             
             <!--'Time' column--> 
@@ -43,10 +45,10 @@
                                     <Setter Property="Foreground" Value="White"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding Path=Color, Mode=OneWay}" Value="{x:Static local:LogViewerLineColor.Green}">
-                                            <Setter Property="Foreground" Value="Green"/>
+                                            <Setter Property="Foreground" Value="#8ddb7d"/>
                                         </DataTrigger>
                                         <DataTrigger Binding="{Binding Path=Color, Mode=OneWay}" Value="{x:Static local:LogViewerLineColor.Red}">
-                                            <Setter Property="Foreground" Value="Red"/>
+                                            <Setter Property="Foreground" Value="#ff6666"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
