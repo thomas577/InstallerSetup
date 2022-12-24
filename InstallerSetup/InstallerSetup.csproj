@@ -75,9 +75,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\DebugConverter.cs" />
+    <Compile Include="Models\Tasks\ITaskExecutionContext.cs" />
     <Compile Include="Models\Tasks\ITask.cs" />
+    <Compile Include="Models\Tasks\ITaskResult.cs" />
     <Compile Include="Models\Tasks\TaskBase.cs" />
     <Compile Include="Models\Tasks\TaskCheckFileExists.cs" />
+    <Compile Include="Models\Tasks\TaskExecutionContextBasic.cs" />
+    <Compile Include="Models\Tasks\TaskResultBasic.cs" />
     <Compile Include="Models\Tasks\TaskStatus.cs" />
     <Compile Include="Services\Logging\ILoggingService.cs" />
     <Compile Include="Services\Logging\LoggingLine.cs" />

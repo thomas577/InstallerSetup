@@ -10,13 +10,15 @@ namespace InstallerSetup.Models.Tasks
 {
     public interface ITask<out T, in U> : INotifyPropertyChanged
     {
-        string Description { get; }
+        string WriteDescription();
+
+        string WriteSuccess();
+
+        string WriteFailure(Exception exception = null);
 
         TaskStatus Status { get; }
 
         int NestingLevel { get; }
-
-        bool HasChildTasks { get; }
 
         T Execute(U context);
     }

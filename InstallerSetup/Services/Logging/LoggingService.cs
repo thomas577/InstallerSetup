@@ -34,8 +34,12 @@ namespace InstallerSetup.Services.Logging
             }
 
             string indent = new string('a', indentation).Replace("a", "    ");
+            IEnumerable<string> messageLines = message.Replace("\r", string.Empty)
+                                                      .Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                                                      .Select(x => indent + x.Trim(new[] { '\n' }));
+            string messageIndented = string.Join("\r\n", messageLines);
 
-            this.LogLines.Add(new LoggingLine(DateTime.Now, indent + message, color));
+            this.LogLines.Add(new LoggingLine(DateTime.Now, messageIndented, color));
         }
     }
 }
