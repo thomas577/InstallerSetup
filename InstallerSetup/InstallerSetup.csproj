@@ -39,16 +39,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ControlzEx, Version=4.0.0.0, Culture=neutral, PublicKeyToken=69f1c32f803d307e, processorArchitecture=MSIL">
-      <HintPath>..\packages\ControlzEx.4.4.0\lib\net462\ControlzEx.dll</HintPath>
+      <HintPath>.\Libraries\ControlzEx.dll</HintPath>
     </Reference>
     <Reference Include="MahApps.Metro, Version=2.0.0.0, Culture=neutral, PublicKeyToken=51482d6f650b2b3f, processorArchitecture=MSIL">
-      <HintPath>..\packages\MahApps.Metro.2.4.9\lib\net47\MahApps.Metro.dll</HintPath>
+      <HintPath>.\Libraries\MahApps.Metro.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.19\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+      <HintPath>.\Libraries\Microsoft.Xaml.Behaviors.dll</HintPath>
     </Reference>
     <Reference Include="Prism, Version=8.1.97.5141, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.8.1.97\lib\net47\Prism.dll</HintPath>
+      <HintPath>.\Libraries\Prism.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -76,9 +76,17 @@
     </ApplicationDefinition>
     <Compile Include="Converters\DebugConverter.cs" />
     <Compile Include="Models\Tasks\ITask.cs" />
+    <Compile Include="Models\Tasks\ITaskResult.cs" />
     <Compile Include="Models\Tasks\TaskBase.cs" />
     <Compile Include="Models\Tasks\TaskCheckFileExists.cs" />
+    <Compile Include="Models\Tasks\TaskCreateDirectory.cs" />
+    <Compile Include="Models\Tasks\TaskDeleteDirectory.cs" />
+    <Compile Include="Models\Tasks\TaskKillProcess.cs" />
+    <Compile Include="Models\Tasks\TaskResultBase.cs" />
+    <Compile Include="Models\Tasks\TaskStartProcess.cs" />
     <Compile Include="Models\Tasks\TaskStatus.cs" />
+    <Compile Include="Services\FileSystem\FileService.cs" />
+    <Compile Include="Services\FileSystem\IFileService.cs" />
     <Compile Include="Services\Logging\ILoggingService.cs" />
     <Compile Include="Services\Logging\LoggingLine.cs" />
     <Compile Include="Services\Logging\LoggingLineList.cs" />
@@ -129,7 +137,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

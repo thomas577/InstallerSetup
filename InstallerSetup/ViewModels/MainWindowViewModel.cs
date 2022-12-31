@@ -1,5 +1,6 @@
 ﻿using InstallerSetup.Controls;
 using InstallerSetup.Models.Tasks;
+using InstallerSetup.Services.FileSystem;
 using InstallerSetup.Services.Logging;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -17,10 +18,12 @@ namespace InstallerSetup.ViewModels
     public class MainWindowViewModel : BindableBase
     {
         private readonly ILoggingService loggingService;
+        private readonly IFileService fileService;
 
-        public MainWindowViewModel(ILoggingService loggingService)
+        public MainWindowViewModel(ILoggingService loggingService, IFileService fileService)
         {
             this.loggingService = loggingService;
+            this.fileService = fileService;
             this.LogLines = this.loggingService.LogLines;
             this.ThomasClickCommand = new DelegateCommand(this.ThomasClick);
         }
@@ -39,8 +42,8 @@ namespace InstallerSetup.ViewModels
                     "DFdgdfgfdg dfg fdg dfgfdssfe wf dfdgbfh dfg ", LoggingType.Error, 2);
             }
 
-            TaskCheckFileExists task = new TaskCheckFileExists(0, this.loggingService, @"C:\temp\thoma.xml");
-            bool exists = task.Execute();
+            TaskCheckFileExists task = new TaskCheckFileExists(this.loggingService, null, @"C:\temp\thomas.xml", this.fileService);
+            task.Execute();
         }
     }
 }

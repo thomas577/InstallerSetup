@@ -1,4 +1,5 @@
-﻿using InstallerSetup.Services.Logging;
+﻿using InstallerSetup.Services.FileSystem;
+using InstallerSetup.Services.Logging;
 using InstallerSetup.ViewModels;
 using MahApps.Metro.Controls;
 using System;
@@ -25,7 +26,7 @@ namespace InstallerSetup.Views
     {
         public MainWindow()
         {
-            this.DataContext = new MainWindowViewModel(new LoggingService());
+            this.DataContext = new MainWindowViewModel(new LoggingService(), new FileService());
             this.InitializeComponent();
         }
     }

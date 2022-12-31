@@ -19,6 +19,19 @@
               AutoGenerateColumns="False"
               SelectionMode="Single"
               SelectionUnit="FullRow">
+        <DataGrid.Resources>
+            <Style TargetType="{x:Type DataGridCell}">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
+            </Style>
+            <Style TargetType="{x:Type DataGridRow}">
+                <Setter Property="Padding" Value="0" />
+                <Setter Property="Margin" Value="0" />
+                <Setter Property="MinHeight" Value="0" />
+            </Style>
+        </DataGrid.Resources>
+        
         <DataGrid.Columns>
             
             <!--'Time' column--> 
