@@ -20,7 +20,7 @@ namespace InstallerSetup.Models.Tasks
 
         protected override TaskKillProcessResult ExecuteInternal()
         {
-            Process process = Process.GetProcesses().FirstOrDefault(x => x.ProcessName.ToLowerInvariant().Contains(this.processName));
+            Process process = Process.GetProcesses().FirstOrDefault(x => x.ProcessName.ToLowerInvariant().Equals(this.processName));
             if (process == null)
             {
                 return new TaskKillProcessResult(isSuccess: false, processFound: false);

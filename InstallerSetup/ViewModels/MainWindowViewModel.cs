@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,25 +26,34 @@ namespace InstallerSetup.ViewModels
             this.loggingService = loggingService;
             this.fileService = fileService;
             this.LogLines = this.loggingService.LogLines;
-            this.ThomasClickCommand = new DelegateCommand(this.ThomasClick);
+            this.StartInstallCommand = new DelegateCommand(this.StartInstall);
         }
 
         public ILogViewerLineList LogLines { get; }
 
-        public ICommand ThomasClickCommand { get; }
+        public ICommand StartInstallCommand { get; }
 
-        private void ThomasClick()
+        private async void StartInstall()
         {
-            Random random = new Random();
-            this.LogLines.Clear();
-            for (int i = 0; i < random.Next(120); i++)
-            {
-                this.loggingService.Log("Hello ds fdsf sdfd fd f dsfs ESDFdfs fds fsdf df dsf sdf sd f dfgfdhbgfhfgd sf dd sf \r\n" +
-                    "DFdgdfgfdg dfg fdg dfgfdssfe wf dfdgbfh dfg ", LoggingType.Error, 2);
-            }
+            // Check if a file exists
+            new TaskCheckFileExists(this.loggingService, null, @"C:\temp\thomas.xml", this.fileService).Execute();
+            new TaskCheckFileExists(this.loggingService, null, @"C:\temp\thoma.xml", this.fileService).Execute();
 
-            TaskCheckFileExists task = new TaskCheckFileExists(this.loggingService, null, @"C:\temp\thomas.xml", this.fileService);
-            task.Execute();
+            DirectoryInfo tempFolder = new DirectoryInfo(@"C:\temp");
+
+            // Create a directory in C:\temp
+            new TaskCreateDirectory(this.loggingService, null, this.fileService, tempFolder, "new_folder").Execute();
+            await Task.Delay(500);
+
+            // Delete the directory in C:\temp
+            new TaskDeleteDirectory(this.loggingService, null, this.fileService, tempFolder, "new_folder").Execute();
+
+            // Start a new Notepad process
+            new TaskStartProcess(this.loggingService, null, @"C:\Windows\System32\notepad.exe", this.fileService).Execute();
+            await Task.Delay(1000);
+
+            // Kill the Notepad process
+            new TaskKillProcess(this.loggingService, null, "notepad").Execute();
         }
     }
 }
