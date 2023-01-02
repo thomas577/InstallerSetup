@@ -25,14 +25,14 @@ namespace InstallerSetup.Models.Tasks
 
         protected override TaskCreateDirectoryResult CreateTaskFailedResult(Exception exception)
         {
-            return new TaskCreateDirectoryResult(isSuccess: false);
+            return new TaskCreateDirectoryResult(isSuccess: false, directoryCreated: null);
         }
 
         protected override TaskCreateDirectoryResult ExecuteInternal()
         {
             DirectoryInfo directory = this.fileService.CreateDirectory(this.parent, this.name);
-            if (directory == null) return new TaskCreateDirectoryResult(isSuccess: false);
-            return new TaskCreateDirectoryResult(isSuccess: true);
+            if (directory == null) return new TaskCreateDirectoryResult(isSuccess: false, directoryCreated: directory);
+            return new TaskCreateDirectoryResult(isSuccess: true, directoryCreated: directory);
         }
 
         protected override string GetDescriptionOutput()
@@ -58,8 +58,11 @@ namespace InstallerSetup.Models.Tasks
 
     public class TaskCreateDirectoryResult : TaskResultBase
     {
-        public TaskCreateDirectoryResult(bool isSuccess) : base(isSuccess)
+        public TaskCreateDirectoryResult(bool isSuccess, DirectoryInfo directoryCreated) : base(isSuccess)
         {
+            this.DirectoryCreated = directoryCreated;
         }
+
+        public DirectoryInfo DirectoryCreated { get; }
     }
 }

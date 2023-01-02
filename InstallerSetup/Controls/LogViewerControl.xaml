@@ -51,7 +51,7 @@
                     <DataTemplate DataType="{x:Type local:ILogViewerLine}">
                         <TextBlock FontWeight="Normal" 
                                    Text="{Binding Path=Text, Mode=OneWay}"
-                                   Width="{Binding ElementName=LogViewer, Converter={StaticResource DebugConverter}, Path=MaximumTextWidth, Mode=OneWay}"
+                                   Width="{Binding ElementName=LogViewer, Path=MaximumTextWidth, Mode=OneWay}"
                                    TextWrapping="WrapWithOverflow">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">

@@ -79,9 +79,14 @@
     <Compile Include="Models\Tasks\ITaskResult.cs" />
     <Compile Include="Models\Tasks\TaskBase.cs" />
     <Compile Include="Models\Tasks\TaskCheckFileExists.cs" />
+    <Compile Include="Models\Tasks\TaskCopyDirectoryRecursively.cs" />
     <Compile Include="Models\Tasks\TaskCreateDirectory.cs" />
+    <Compile Include="Models\Tasks\TaskCreateFile.cs" />
     <Compile Include="Models\Tasks\TaskDeleteDirectory.cs" />
+    <Compile Include="Models\Tasks\TaskDeleteDirectoryRecursively.cs" />
+    <Compile Include="Models\Tasks\TaskDeleteFile.cs" />
     <Compile Include="Models\Tasks\TaskKillProcess.cs" />
+    <Compile Include="Models\Tasks\TaskReadFile.cs" />
     <Compile Include="Models\Tasks\TaskResultBase.cs" />
     <Compile Include="Models\Tasks\TaskStartProcess.cs" />
     <Compile Include="Models\Tasks\TaskStatus.cs" />
